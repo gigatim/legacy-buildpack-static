@@ -10,10 +10,7 @@ bp_dir=$(dirname $(dirname $0))
 
 case "${STACK}" in
   heroku-16|heroku-18|heroku-20)
-    nginx_archive_url="https://heroku-buildpack-static.s3.amazonaws.com/${STACK}/nginx-1.19.0-ngx_mruby-2.2.3.tgz"
-    ;;
-  cedar-14)
-    nginx_archive_url='https://heroku-buildpack-ruby.s3.amazonaws.com/nginx/cedar-14/nginx-1.9.7-ngx_mruby.tgz'
+    echo "Found stack ${STACK}"
     ;;
   *)
     echo "Stack ${STACK} is not supported!"
@@ -22,7 +19,7 @@ case "${STACK}" in
 esac
 
 mkdir -p $build_dir/bin
-curl -sSf --retry 3 --connect-timeout 3 "${nginx_archive_url}" | tar -xzC "${build_dir}/bin"
+mv ${bp_dir}/bin/nginx $build_dir/bin/
 nginx_version=$("${build_dir}/bin/nginx" -v |& cut -d '/' -f 2-)
 cp -a $bp_dir/scripts/{boot,config} -t $build_dir/bin/
 echo "-----> Installed nginx ${nginx_version} to /app/bin"
