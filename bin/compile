@@ -19,7 +19,7 @@ case "${STACK}" in
 esac
 
 mkdir -p $build_dir/bin
-mv ${bp_dir}/bin/nginx $build_dir/bin/
+mv ${bp_dir}/lib/nginx $build_dir/bin/
 nginx_version=$("${build_dir}/bin/nginx" -v |& cut -d '/' -f 2-)
 cp -a $bp_dir/scripts/{boot,config} -t $build_dir/bin/
 echo "-----> Installed nginx ${nginx_version} to /app/bin"
